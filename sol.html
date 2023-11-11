@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sol</title>
+    <!-- icono del la pestaña -->
+    <link rel="shortcut icon" href="./Biblioteca/Gifs/nerv.gif">
+    <!-- link de la libreria para leer las etiquetas de aframe -->
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <!-- script para gifs -->
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"></script>
+    <!-- para leer animación -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <!-- script para texturas -->
+    <script src="https://cdn.jsdelivr.net/npm/aframe-enviropacks@latest/aframe-enviropacks.js"></script>
+    <!-- script para texto en 3d -->
+    <script
+        src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+    <!-- script para interacciones -->
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <!-- LIBRERIAS DE COLISIONES Y FÍSICAS-->
+    <script
+        src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras@0.1.2/dist/aframe-physics-extras.min.js"></script>
+    <!-- scripts movimiento de la cámara -->
+    <script> src = "https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js" </script>
+    <script> src = "https://unpkg.com/super-hands@2.0.2/dist/super-hands.min.js" </script>
+    <!-- scripts para partículas-->
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
+    <script
+        src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras.ocean@%5E3.5.x/dist/aframe-extras.ocean.min.js"></script>
+    <script src="https://unpkg.com/aframe-gradient-sky@1.2.0/dist/gradientsky.min.js"></script>
+    <!-- scripts para enviroments-->
+    <script
+        src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+    <!-- scipts para animacion de agua -->
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras.ocean@%5E3.5.x/dist/aframe-extras.ocean.min.js"></script>
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
+    <!-- scripts para truco de transparencia en modelos 3d-->
+    <script>
+        AFRAME.registerComponent('model-opacity', {
+            schema: { default: 1.0 },
+            init: function () {
+                // this.el.addEventListener('model-loaded', this.update.bind(this));
+                this.el.addEventListener("model-loaded", () => {
+                    const object3DEl = this.el.object3DMap;
+                    ;
+
+
+
+
+
+
+
+
+                    var mesh = this.el.getObject3D('mesh'); // For hand, the result is undefined
+                    // var mesh = this.el.object3DMap.mesh; // For hand, the result is undefined
+                    console.log(mesh);
+                    var data = this.data;
+                    if (!mesh) { return; }
+                    mesh.traverse(function (node) {
+                        if (node.isMesh) {
+                            ;
+                            node.material.opacity = data;
+                            node.material.transparent = data < 1.0;
+                            node.material.needsUpdate = true;
+                        }
+                    });
+                }, 2000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            },
+            update: function () {
+                var mesh = this.el.getObject3D('mesh');
+                var data = this.data;
+                if (!mesh) { return; }
+                mesh.traverse(function (node) {
+                    if (node.isMesh) {
+                        ;
+                        node.material.opacity = data;
+                        node.material.transparent = data < 1.0;
+                        node.material.needsUpdate = true;
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- script para links -->
+
+</head>
+
+
+<body>
+
+
+
+    <!-- Modelos -->
+    <a-asset-item id="sol" src="./Biblioteca/modelos/scene.gltf"></a-asset-item>
+
+
+    <!-- Texto -->
+    <a-entity
+        text-geometry="value: Dream; size: 5; height: 3; bevelEnabled: true; bevelSize: 0.04; bevelThickness: 0.04; curveSegments: 5.020"
+        material="shader: standard; color:#c974cd" rotation="0 180 0" position="8.092 1.117 -6.635"
+        scale="0.190 0.190 0.190"></a-entity>
+
+        <!-- Camara (Si cambio la posicion no funcionan las paredes estaticas :< )-->
+
+        <a-entity movement-controls kinematic-body>
+            <a-entity id="camera" camera position="0 2.5 0" look-controls
+                light="intensity:1; type:point; penumbra:1.0"> <a-entity cursor="fuse: true; fuseTimeout: 500"
+                    position="0 10 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                    material="color: black; shader: flat"> </a-entity></a-entity>
+        </a-entity>
+
+
+    <!-- Luces -->
+    <a-entity light="type: ambient; color: #ffffff; intensity: 10"></a-entity>
+
+
+    <a-scene>
+
+        <a-sphere position="1 1 1" radius="1.25" src="./biblioteca/imagenes/sol-letras.png" material=""
+        geometry="" scale="9 9 9"
+        animation="property: rotation; to: 0 360 0; loop:true; dur: 20000; easing: linear"></a-sphere>
+
+
+
+        <a-sky src="./biblioteca/imagenes/space.jpg" animation="property:rotation;to: 0 360 0; loop:true; dur: 200000; easing:linear"></a-sky>
+
+
+
+    </a-scene>
+</body>
+
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space</title>
+    <!-- icono del la pestaña -->
+    <link rel="shortcut icon" href="./Biblioteca/Gifs/nerv.gif">
+    <!-- link de la libreria para leer las etiquetas de aframe -->
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <!-- script para gifs -->
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"></script>
+    <!-- para leer animación -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <!-- script para texturas -->
+    <script src="https://cdn.jsdelivr.net/npm/aframe-enviropacks@latest/aframe-enviropacks.js"></script>
+    <!-- script para texto en 3d -->
+    <script
+        src="https://unpkg.com/aframe-text-geometry-component@^0.5.0/dist/aframe-text-geometry-component.min.js"></script>
+    <!-- script para interacciones -->
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <!-- LIBRERIAS DE COLISIONES Y FÍSICAS-->
+    <script
+        src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras@0.1.2/dist/aframe-physics-extras.min.js"></script>
+    <!-- scripts movimiento de la cámara -->
+    <script> src = "https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js" </script>
+    <script> src = "https://unpkg.com/super-hands@2.0.2/dist/super-hands.min.js" </script>
+    <!-- scripts para partículas-->
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
+    <script
+        src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras.ocean@%5E3.5.x/dist/aframe-extras.ocean.min.js"></script>
+    <script src="https://unpkg.com/aframe-gradient-sky@1.2.0/dist/gradientsky.min.js"></script>
+    <!-- scripts para enviroments-->
+    <script
+        src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+    <!-- scipts para animacion de agua -->
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras.ocean@%5E3.5.x/dist/aframe-extras.ocean.min.js"></script>
+    <script src="https://unpkg.com/aframe-animation-component@3.2.1/dist/aframe-animation-component.min.js"></script>
+    <!-- scripts para truco de transparencia en modelos 3d-->
+    <script>
+        AFRAME.registerComponent('model-opacity', {
+            schema: { default: 1.0 },
+            init: function () {
+                // this.el.addEventListener('model-loaded', this.update.bind(this));
+                this.el.addEventListener("model-loaded", () => {
+                    const object3DEl = this.el.object3DMap;
+                    ;
+
+
+
+
+
+
+
+
+                    var mesh = this.el.getObject3D('mesh'); // For hand, the result is undefined
+                    // var mesh = this.el.object3DMap.mesh; // For hand, the result is undefined
+                    console.log(mesh);
+                    var data = this.data;
+                    if (!mesh) { return; }
+                    mesh.traverse(function (node) {
+                        if (node.isMesh) {
+                            ;
+                            node.material.opacity = data;
+                            node.material.transparent = data < 1.0;
+                            node.material.needsUpdate = true;
+                        }
+                    });
+                }, 2000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            },
+            update: function () {
+                var mesh = this.el.getObject3D('mesh');
+                var data = this.data;
+                if (!mesh) { return; }
+                mesh.traverse(function (node) {
+                    if (node.isMesh) {
+                        ;
+                        node.material.opacity = data;
+                        node.material.transparent = data < 1.0;
+                        node.material.needsUpdate = true;
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- script para links -->
+
+</head>
+
+<body>
+
+    <a-scene loading-screen="" physics="gravity:-40; debug: false" vr-mode-ui="enabled:false">
+
+
+
+
+        <a-scene>
+
+
+
+
+            <a-sky src="./biblioteca/imagenes/space.jpg"
+                animation="property:rotation;to: 0 360 0; loop:true; dur: 200000; easing:linear"></a-sky>
+
+
+
+            <!-- Cielo 
+            <a-sphere radius="130" material="src: #sky ; side: double;"
+            animation="property:rotation; to: 0 360 0; loop:true; dur:201900"></a-sphere> -->
+
+
+
+            <!-- Imagenes -->
+            <img id="sky" src="./Biblioteca/imagenes/space.jpg">
+
+
+            <!-- Modelos -->
+            <a-asset-item id="astro" src="./Biblioteca/modelos/space_fighter/nave.gltf"></a-asset-item>
+
+
+            <!-- Camara (Si cambio la posicion no funcionan las paredes estaticas :< )
+
+                <a-entity movement-controls kinematic-body>
+                    <a-entity id="camera" camera position="0 2.5 0" look-controls
+                        light="intensity:0; type:point; penumbra:1.0"> <a-entity cursor="fuse: true; fuseTimeout: 500"
+                            position="0 0 -1" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                            material="color: black; shader: flat"> </a-entity></a-entity>
+                </a-entity>-->
+
+                
+
+
+            <!-- Luces -->
+            <a-entity light="type: ambient; color: #000000; intensity: 100"></a-entity>
+            <a-entity light="type: directional; color: #EEE; intensity: 0.5" position="-1 1 0"></a-entity>
+            <a-light type="directional" position="0 0 0" rotation="-90 0 0" target="#directionaltarget">
+                <a-entity id="directionaltarget" position="0 0 -1"></a-entity>
+            </a-light>
+            <a-light type="directional" light="castShadow:true;" position="1 1 1" intensity="0.5"
+                shdadow-camera-automatic="#objects"></a-light>
+
+            <!-- Particulas -->
+            <a-entity
+                particle-system="preset:snow; positionSpread:100 100 100; rotationAxis: y; rotationAngle: 6.10; rotationAngleSpread: 10; maxParticleCount:2500000; particleCount:100"></a-entity>
+
+
+
+            <!-- Planetas -->
+            <a-sphere position="0 1.17251 -4.83771" radius="1.25" src="./biblioteca/imagenes/sol.jpeg" material=""
+                geometry="" scale="9 9 9"
+                animation="property: rotation; to: 0 360 0; loop:true; dur: 20000; easing: linear"></a-sphere>
+
+            <a-entity position="">
+                <a-sphere position="20 1.17251 -4.83771" radius="1.25" src="./biblioteca/imagenes/mercurio.jpg"
+                    material="" geometry="" scale="0.49 0.49 0.49"
+                    animation="property: rotation; to: 0 360 0; loop:true; dur: 20000; easing: linear"></a-sphere><a-animation
+                    attribute="rotation" from="0 0 0" to="0 360 0" repeat="forever" dur="8000"
+                    easing="linear"></a-animation>
+            </a-entity>
+
+            <a-entity position="">
+                <a-sphere position="40 1.17251 -4.83771" radius="1.25" src="./biblioteca/imagenes/venus.jpg" material=""
+                    geometry="" scale="1.5 1.5 1.5"
+                    animation="property:rotation;to: 0 360 0; loop:true; dur: 30000; easing:linear"></a-sphere><a-animation
+                    attribute="rotation" from="0 0 0" to="0 360 0" repeat="forever" dur="10000"
+                    easing="linear"></a-animation>
+            </a-entity>
+
+
+
+            <a-entity position="">
+                <a-sphere position="60 1.17251 -4.83771" radius="1.25" src="./biblioteca/imagenes/tierra.jpg"
+                    material="" geometry="" scale="1.8 1.8 1.8"
+                    animation="property: rotation; to: 0 360 0; loop:true; dur: 20000; easing: linear"></a-sphere><a-animation
+                    attribute="rotation" from="0 0 0" to="0 360 0" repeat="forever" dur="15000"
+                    easing="linear"></a-animation>
+            </a-entity>
+
+
+            <a-entity position="">
+                <a-sphere position="80 1.17251 -4.837714" radius="1.25" src="./biblioteca/imagenes/marte.jpg"
+                    material="" geometry="" scale="1.5 1.5 1.5"></a-sphere><a-animation attribute="rotation"
+                    from="0 0 0" to="0 360 0" repeat="forever" dur="20000" easing="linear"></a-animation>
+            </a-entity>
+
+
+            <a-entity position="">
+                <a-sphere position="100 1.17251 -4.83771" radius="1.25" src="./biblioteca/imagenes/jupiter.jpg"
+                    material="" geometry="" scale="3 3 3"
+                    animation="property: rotation; to: 0 360 0; loop:true; dur: 20000; easing: linear"></a-sphere>
+                <a-animation attribute="rotation" from="0 0 0" to="0 360 0" repeat="forever" dur="25000"
+                    easing="linear"></a-animation>
+            </a-entity>
+
+
+            <a-entity position="">
+                <a-sphere position="120 1.17251 -4.83771" radius="1.25" src="./biblioteca/imagenes/saturno.jpg"
+                    material="" geometry="" scale="2.5 2.5 2.5"
+                    animation="property:rotation;to: 0 360 0; loop:true; dur:20000; easing:linear"></a-sphere>
+                <a-animation attribute="rotation" from="0 0 0" to="0 360 0" repeat="forever" dur="30000"
+                    easing="linear"></a-animation>
+            </a-entity>
+
+
+            <a-entity position="">
+                <a-sphere position="140 1.17251 -4.83771" radius="1.25" src="./biblioteca/imagenes/neptuno.jpg"
+                    material="" geometry="" scale="1.8 1.8 1.8"
+                    animation="property:rotation;to: 0 360 0; loop:true; dur: 20000; easing:linear"></a-sphere>
+                <a-animation attribute="rotation" from="0 0 0" to="0 360 0" repeat="forever" dur="35000"
+                    easing="linear"></a-animation>
+            </a-entity>
+
+
+            <a-entity position="">
+                <a-sphere position="160 1.17251 -4.83771" radius="1.25" src="./biblioteca/imagenes/pluton.jpg"
+                    material="" geometry="" scale=".50 .50 .50"
+                    animation="property:rotation;to: 0 360 0; loop:true; dur: 10000; easing:linear"></a-sphere>
+                <a-animation attribute="rotation" from="0 0 0" to="0 360 0" repeat="forever" dur="40000"
+                    easing="linear"></a-animation>
+            </a-entity>
+
+            <a-entity position="">
+                <a-sphere position="57.54873 3.23022 -4.50159" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+                    material="" geometry=""
+                    animation="property: rotation; to: 0 360 0; loop:true; dur: 45000; easing: linear"
+                    scale="10 10 10"></a-sphere>
+
+
+
+                    <!-- asteroides -->
+            </a-entity>
+            <a-entity position="">
+                <a-sphere position="287.747 143.643 -93.12" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+                    animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+                    rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="360 0 360" repeat="forever" dur="10000"
+                    easing="linear"></a-animation>
+            </a-entity>
+
+        </a-entity>
+        <a-entity position="">
+            <a-sphere position="100 143.643 50" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+                animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+                rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="360 360 360" repeat="forever" dur="10000"
+                easing="linear"></a-animation>
+        </a-entity>
+
+    </a-entity>
+    <a-entity position="">
+        <a-sphere position="500 300 -93.12" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+            animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+            rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="360 0 0" repeat="forever" dur="10000"
+            easing="linear"></a-animation>
+    </a-entity>
+
+</a-entity>
+<a-entity position="">
+    <a-sphere position="100 500 100" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+        animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+        rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="360 0 100" repeat="forever" dur="10000"
+        easing="linear"></a-animation>
+</a-entity>
+
+</a-entity>
+<a-entity position="">
+    <a-sphere position="450 450 450 " radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+        animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+        rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="180 0 360" repeat="forever" dur="10000"
+        easing="linear"></a-animation>
+</a-entity>
+
+</a-entity>
+<a-entity position="">
+    <a-sphere position="150 150 150" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+        animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+        rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="360 0 0" repeat="forever" dur="10000"
+        easing="linear"></a-animation>
+</a-entity>
+
+</a-entity>
+<a-entity position="">
+    <a-sphere position="150 300 300" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+        animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+        rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="360 360 180" repeat="forever" dur="10000"
+        easing="linear"></a-animation>
+</a-entity>
+
+</a-entity>
+<a-entity position="">
+    <a-sphere position="300 500 100" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+        animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+        rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="180 180 180" repeat="forever" dur="10000"
+        easing="linear"></a-animation>
+</a-entity>
+
+</a-entity>
+<a-entity position="">
+    <a-sphere position="300 300 500" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+        animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+        rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="360 360 0" repeat="forever" dur="10000"
+        easing="linear"></a-animation>
+</a-entity>
+
+</a-entity>
+<a-entity position="">
+    <a-sphere position="120 400 200" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+        animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+        rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="0 0 360" repeat="forever" dur="10000"
+        easing="linear"></a-animation>
+</a-entity>
+
+</a-entity>
+<a-entity position="">
+    <a-sphere position="100 100 100" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+        animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+        rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="0 360 360" repeat="forever" dur="10000"
+        easing="linear"></a-animation>
+</a-entity>
+
+</a-entity>
+<a-entity position="">
+    <a-sphere position="600 600 600" radius="1.25" src="./biblioteca/imagenes/luna.jpg"
+        animation="dur:45000;easing:linear;loop:true;property:rotation;to:0 360 0" scale="5 5 5"
+        rotation="0 241.2936 0"></a-sphere> <a-animation attribute="rotation" from="0 0 0" to="360 0 0" repeat="forever" dur="10000"
+        easing="linear"></a-animation>
+</a-entity>
+
+
+
+
+            <!-- Enviroment -->
+
+            <!-- Esfera con mirror y animacion orbital en una direccion 
+                <a-entity position="5 5 5">
+                    <a-sphere position="5 5 5"
+                        mirror="resolution: 16; distance: 1000; interval: 250; repeat: true"></a-sphere>
+                    <a-animation attribute="rotation" from="0 0 0" to="0 360 0" repeat="forever" dur="5000"
+                        easing="linear"></a-animation>
+                </a-entity>-->
+            <!-- Esfera y animacion orbital en dos direcciones 
+                <a-entity position="5 10 5">
+                    <a-sphere position="5 5 5" color="white"></a-sphere>
+                    <a-animation attribute="rotation" from="0 0 0" to="360 0 360" repeat="forever" dur="1000"
+                        easing="linear"></a-animation>
+                </a-entity>-->
+
+
+
+
+            <!-- Torus venus -->
+            <a-torus radius="5" radius-tubular="0.09" arc="360" position="-1.23164 0.62267 -5.68838"
+                rotation="90.76 90 119.99999999999999" color="#white" material=""
+                geometry="radius: 4.14; radiusTubular: 0.005" scale="9.99 9.99 0.5"></a-torus>
+
+
+
+            <!-- Torus tierra -->
+            <a-torus radius="5" radius-tubular="0.09" arc="360" position="-1.23164 0.62267 -5.68838"
+                rotation="90.76 90.6 119.99999999999999" color="#white" material=""
+                geometry="radius: 6.04; radiusTubular: 0.005" scale="9.99 9.99 0.5"></a-torus>
+
+            <!-- Torus marte -->
+            <a-torus radius="5" radius-tubular="0.09" arc="360" position="-1.23164 0.62267 -5.68838"
+                rotation="90.76 90.6 119.99999999999999" color="#white" material=""
+                geometry="radius: 8.16; radiusTubular: 0.005" scale="9.99 9.99 0.5"></a-torus>
+
+
+            <!-- Torus jupiter -->
+            <a-torus radius="5" radius-tubular="0.09" arc="360" position="-1.23164 0.62267 -5.68838"
+                rotation="90.76 90.6 119.99999999999999" color="#white" material=""
+                geometry="radius: 10.13; radiusTubular: 0.005" scale="9.99 9.99 0.5"></a-torus>
+
+
+            <!-- Torus saturno -->
+            <a-torus radius="5" radius-tubular="0.09" arc="360" position="-1.23164 0.62267 -5.68838"
+                rotation="90.76 90.6 119.99999999999999" color="#white" material=""
+                geometry="radius: 11.96; radiusTubular: 0.005" scale="9.99 9.99 0.5"></a-torus>
+
+
+            <!-- Torus neptuno-->
+            <a-torus radius="5" radius-tubular="0.09" arc="360" position="-1.23164 0.62267 -5.68838"
+                rotation="90.76 90.6 119.99999999999999" color="#white" material=""
+                geometry="radius: 13.89; radiusTubular: 0.005" scale="9.99 9.99 0.5"></a-torus>
+
+            <!-- Torus pluto -->
+            <a-torus radius="5" radius-tubular="0.09" arc="360" position="-1.23164 0.62267 -5.68838"
+                rotation="90.76 90.6 119.99999999999999" color="#white" material=""
+                geometry="radius: 16.39; radiusTubular: 0.005" scale="9.99 9.99 0.5"></a-torus>
+
+
+                <!-- galaxia -->
+            <a-entity gltf-model="#astro" position="17.154 0.172 32.18786" rotation="0 200 0" scale="100 100 100"></a-entity>
+
+        </a-scene>
+</body>
+
+</html>
